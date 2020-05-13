@@ -1,5 +1,6 @@
-import model.Book;
+import model.concrete.Book;
 import model.Product;
+import model.concrete.Cigar;
 import repository.impl.ProductRepository;
 import service.ProductService;
 import service.impl.ProductNameComparator;
@@ -11,21 +12,17 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Product> books = new ArrayList<>();
-//        books.add(new Book("Hoàng tử bé",1111,"Tuan Lee",2000,"Fiction"));
-//        books.add(new Book("Công chúa  bé",1112,"Tuan Lee",3000,"Fiction"));
-//        books.add(new Book("Anh chúa  bé",1113,"Tuan Lee",1000,"Fiction"));
-        ProductService productService = new ProductServiceImpl();
-
-//        ProductNameComparator productNameComparator = new ProductNameComparator();
-//        ProductPriceComparator productPriceComparator = new ProductPriceComparator();
-//
-//        productService.sort(books, productPriceComparator);
-//        productService.display(books);
+        List<Product> products = new ArrayList<>();
         ProductRepository productRepository = new ProductRepository();
-//        productRepository.save(books);
-        productRepository.load(books);
-        books.add(new Book("Anh chúa  bé",1115,"Tuan Lee",1000,"Fiction"));
-        productRepository.save(books);
+        ProductService productService = new ProductServiceImpl();
+        productService.add(products,new Book("Hoàng tử bé",1111,"Tuan Lee",2000,"Fiction"));
+        productService.add(products,new Book("Công chúa  bé",1111,"Tuan Lee",3000,"Fiction"));
+        productService.add(products,new Book("Anh chúa  bé",1113,"Tuan Lee",1000,"Fiction"));
+        productRepository.load(products);
+        productService.add(products,new Cigar("44444",444,3000,"Hàng Fake",10));
+        productService.display(products);
+
+
+//        productRepository.save(products);
     }
 }

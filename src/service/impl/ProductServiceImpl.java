@@ -1,6 +1,5 @@
 package service.impl;
 
-import model.Book;
 import model.Product;
 import service.Comparator;
 import service.ProductService;
@@ -60,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
 
     public void display(List<Product> list) {
         for (Product x : list) {
-            System.out.println(x.toString());
+            System.out.println(x.displayProductInfo());
         }
     }
 

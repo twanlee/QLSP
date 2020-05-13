@@ -1,6 +1,6 @@
 package service.impl;
 
-import model.Book;
+import model.concrete.Book;
 import model.Product;
 import org.junit.jupiter.api.Test;
 import service.ProductService;

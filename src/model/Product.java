@@ -1,6 +1,9 @@
 package model;
 
+import utils.ClassOfProduct;
+
 public abstract class Product {
+    private ClassOfProduct type;
     private String name;
     private int id;
     private int price;
@@ -47,5 +50,8 @@ public abstract class Product {
     @Override
     public String toString(){
         return name+","+id+","+price+","+description;
+    }
+    public String  displayProductInfo(){
+        return "Name: " + name + " | ID " + id + " | Price: " + price+" | Description: " + description;
     }
 }
