@@ -47,6 +47,15 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void add() {
+    void addTest() {
+        List<Product> books = new ArrayList<>();
+        books.add(new Book("Hoàng tử bé",1111,"Tuan Lee",2000,"Fiction"));
+        books.add(new Book("Công chúa  bé",1112,"Tuan Lee",3000,"Fiction"));
+        books.add(new Book("Anh cu bé",1113,"Tuan Lee",1000,"Fiction"));
+        ProductService productService = new ProductServiceImpl();
+        productService.add(books,new Book("Anh bé",1114,"Tuan Lee",1000,"Fiction"));
+        String  book = books.get(3).getName();
+        String bookExpected = "Anh bé";
+        assertEquals(book,bookExpected);
     }
 }
