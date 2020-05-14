@@ -24,6 +24,6 @@ public class Book extends Product {
     }
     @Override
     public String displayProductInfo(){
-        return super.displayProductInfo()+" | author: "+author;
+         return super.displayProductInfo()+" | author: "+author;
     }
 }
