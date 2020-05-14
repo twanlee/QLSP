@@ -34,6 +34,7 @@ public class Client {
         }else return false;
     }
     public void menu(){
+        getLoad();
         System.out.println("======Menu======");
         System.out.println("Identify yourself");
         System.out.println("1. Admin");
@@ -53,11 +54,10 @@ public class Client {
     }
     public void adminLogin(){
         System.out.println("Enter password: ");
-        sc.nextLine();
-        String password = sc.nextLine();
+        String password = sc.next();
         if(password.equals(adminPassword)){
             adminMenu();
-        }else {
+       }else {
             System.out.println("Wrong password! Check again!");
             adminLogin();
         }
@@ -74,7 +74,80 @@ public class Client {
         }
     }
     public void adminMenu(){
-        System.out.println("1. ");
+        if (checkFirstTime()) {
+            System.out.println("First time running! Please add a new Product");
+            System.out.println("-------");
+            addNewProduct();
+        }else {
+            while (true) {
+
+                System.out.println("=====Menu====");
+                System.out.println("0. Exit");
+                System.out.println("1. Sort by Price");
+                System.out.println("2. Sort by Name");
+                System.out.println("3. Find a product by ID or Name");
+                System.out.println("4. Display all of products");
+                System.out.println("5. Update product");
+                System.out.println("6. Add a new product");
+                System.out.println("7. Delete product");
+                int choice = sc.nextInt();
+                switch (choice) {
+                    case 1:
+                        productController.sort(myProducts,productPriceComparator);
+                        productController.display(myProducts);
+                        productRepository.save(myProducts);
+                        break;
+                    case 2:
+                        productController.sort(myProducts,productNameComparator);
+                        productController.display(myProducts);
+                        productRepository.save(myProducts);
+                        break;
+                    case 3:
+                        System.out.println("Enter product ID or Name");
+                        sc.nextLine();
+                        String idOrName = sc.nextLine();
+                        Product product = productController.find(myProducts,idOrName);
+                        if(productController.checkType(product)==ClassOfProduct.BOOK){
+                            product = (Book) product;
+                            System.out.println(product.displayProductInfo());
+                        }
+                        else if(productController.checkType(product) == ClassOfProduct.CIGAR){
+                            product = (Cigar) product;
+                            System.out.println(product.displayProductInfo());
+                        }
+                        break;
+                    case 4:
+                        productController.display(myProducts);
+                        break;
+                    case 5:
+                        System.out.println("Enter id");
+                        sc.nextLine();
+                        String id = sc.nextLine();
+                        ClassOfProduct checkType = productController.checkType(productController.find(myProducts,id));
+                        Product newProduct = productController.factoryProduct(checkType);
+                        productController.update(myProducts,newProduct,Integer.parseInt(id));
+                        productController.display(myProducts);
+                        productRepository.save(myProducts);
+                        break;
+                    case 6:
+                        addNewProduct();
+                        break;
+                    case 7:
+                        System.out.println("Enter ID of Name");
+                        sc.nextLine();
+                        String checkID = sc.nextLine();
+                        productController.remove(myProducts,checkID);
+                        productRepository.save(myProducts);
+                        break;
+                    case 0:
+                        System.exit(0);
+                    default:
+                        System.out.println("Enter your choice again!");
+                }
+            }
+        }
+
+
     }
     public void staffMenu(){
         if (checkFirstTime()) {
@@ -83,15 +156,14 @@ public class Client {
             addNewProduct();
         }else {
             while (true) {
-                productRepository.load(myProducts);
                 System.out.println("=====Menu====");
+                System.out.println("0. Exit");
                 System.out.println("1. Sort by Price");
                 System.out.println("2. Sort by Name");
                 System.out.println("3. Find a product by ID or Name");
                 System.out.println("4. Display all of products");
                 System.out.println("5. Update product");
                 System.out.println("6. Add a new product");
-                System.out.println("0. Exit");
                 int choice = sc.nextInt();
                 switch (choice) {
                     case 1:
@@ -133,8 +205,8 @@ public class Client {
                         break;
                     case 6:
                         addNewProduct();
+                        break;
                     case 0:
-                        productRepository.save(myProducts);
                         System.exit(0);
                     default:
                         System.out.println("Enter your choice again!");
@@ -143,6 +215,10 @@ public class Client {
         }
 
 
+    }
+
+    public void getLoad() {
+        productRepository.load(myProducts);
     }
 
     public void addNewProduct() {
